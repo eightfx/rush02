@@ -81,7 +81,7 @@ int	count_line(char *str)
 	return (count);
 }
 
-/* Dictionary	parse_dictionary(char *content) */
+/* Dictionary	parse_dictionary(char *str) */
 /* { */
 /* 	char		**values; */
 /* 	int			count; */
@@ -92,11 +92,11 @@ int	count_line(char *str)
 /* 	int			line_count; */
 /* 	int			*keys; */
 
-/* 	line_count = count_line(content); */
+/* 	line_count = count_line(str); */
 /* 	keys = malloc(sizeof(int) * line_count); */
 /* 	values = malloc(sizeof(char *) * line_count); */
 /* 	count = 0; */
-/* 	line = strtok(content, "\n"); */
+/* 	line = strtok(str, "\n"); */
 /* 	while (line != NULL) */
 /* 	{ */
 /* 		key_str = strtok(line, ":"); */
