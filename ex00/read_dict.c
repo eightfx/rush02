@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+// TODO: lseekを利用しているので、concat関数を自作して作り直す
 char	*read_dictionary(char *path)
 {
 	int		fd;
