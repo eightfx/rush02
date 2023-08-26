@@ -6,10 +6,9 @@
 /*   By: eokoshi <eokoshi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 11:24:06 by eokoshi           #+#    #+#             */
-/*   Updated: 2023/08/26 12:50:59 by eokoshi          ###   ########.fr       */
+/*   Updated: 2023/08/27 01:00:06 by eokoshi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -50,23 +49,19 @@ char	*eliminate_blank_line(char *str)
 	int		is_prev_newline;
 	int		j;
 
-	i = 0;
+	i = -1;
 	j = 0;
 	len = ft_strlen(str);
 	result = (char *)malloc(len + 1);
 	is_prev_newline = 0;
 	if (!result)
-	{
 		return (NULL);
-	}
-	while (i < len)
+	while (++i < len)
 	{
 		if (str[i] == '\n')
 		{
 			if (!is_prev_newline)
-			{
 				result[j++] = str[i];
-			}
 			is_prev_newline = 1;
 		}
 		else
@@ -74,7 +69,6 @@ char	*eliminate_blank_line(char *str)
 			result[j++] = str[i];
 			is_prev_newline = 0;
 		}
-		i++;
 	}
 	result[j] = '\0';
 	return (result);
@@ -83,18 +77,11 @@ char	*eliminate_blank_line(char *str)
 int	count_line(char *str)
 {
 	int	count;
-	int	i;
 
 	count = 0;
-	i = 0;
-	while (str[i] != '\0')
-	{
-		if (str[i] == '\n')
-		{
+	while (*++str)
+		if (*str == '\n')
 			count++;
-		}
-		i++;
-	}
 	return (count);
 }
 
@@ -110,17 +97,15 @@ t_dictionary	parse_dictionary(char *str)
 	line_count = count_line(str);
 	dictionary.keys = malloc(sizeof(int) * line_count);
 	dictionary.values = malloc(sizeof(char *) * line_count);
-	// Initialize size field
 	dictionary.size = line_count;
 	i = 0;
 	line = strtok(str, "\n");
-	while (line != NULL)
+	while (line)
 	{
 		key_value_pair = ft_split(line, ":");
 		dictionary.keys[i] = ft_atoi(trim(key_value_pair[0]));
 		dictionary.values[i] = trim(key_value_pair[1]);
 		free(key_value_pair);
-			// Assuming ft_split allocates new memory that needs to be freed
 		line = strtok(NULL, "\n");
 		i++;
 	}

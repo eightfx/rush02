@@ -1,7 +1,18 @@
-#include <stdio.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: eokoshi <eokoshi@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/27 00:42:03 by eokoshi           #+#    #+#             */
+/*   Updated: 2023/08/27 00:42:09 by eokoshi          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include <stdlib.h>
 
 int		ft_strlen(char *str);
+
 int	calculate_total_length(char **strs, char *sep, int size)
 {
 	int	total_len;
@@ -10,10 +21,7 @@ int	calculate_total_length(char **strs, char *sep, int size)
 	total_len = 0;
 	i = 0;
 	while (i < size)
-	{
-		total_len += ft_strlen(strs[i]);
-		i++;
-	}
+		total_len += ft_strlen(strs[i++]);
 	total_len += ft_strlen(sep) * (size - 1) + 1;
 	return (total_len);
 }
@@ -26,22 +34,17 @@ void	concatenate_strings(char *result, char **strs, char *sep, int size)
 
 	sep_len = ft_strlen(sep);
 	current_pos = result;
-	i = 0;
-	while (i < size)
+	i = -1;
+	while (++i < size)
 	{
 		while (*strs[i])
-		{
 			*current_pos++ = *strs[i]++;
-		}
 		if (i < size - 1)
 		{
 			while (*sep)
-			{
 				*current_pos++ = *sep++;
-			}
 			sep -= sep_len;
 		}
-		i++;
 	}
 	*current_pos = '\0';
 }

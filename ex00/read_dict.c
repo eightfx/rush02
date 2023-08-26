@@ -1,9 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   read_dict.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: eokoshi <eokoshi@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/27 00:57:01 by eokoshi           #+#    #+#             */
+/*   Updated: 2023/08/27 00:57:02 by eokoshi          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include <fcntl.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 
-// TODO: lseekを利用しているので、concat関数を自作して作り直す
 char	*read_dictionary(char *path)
 {
 	int		fd;
@@ -13,9 +22,7 @@ char	*read_dictionary(char *path)
 
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
-	{
 		return (NULL);
-	}
 	size = lseek(fd, 0, SEEK_END);
 	lseek(fd, 0, SEEK_SET);
 	content = (char *)malloc(size + 1);

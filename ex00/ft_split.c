@@ -11,19 +11,14 @@
 /* ************************************************************************** */
 #include <stdlib.h>
 
-// charsetにchが含まれているかを確認する関数
 int	is_delimiter(char ch, char *charset)
 {
 	while (*charset)
-	{
-		if (ch == *charset)
+		if (ch == *charset++)
 			return (1);
-		charset++;
-	}
 	return (0);
 }
 
-// 分割後の文字列の数をカウントする関数
 int	count_words(char *str, char *charset)
 {
 	int	count;
@@ -43,7 +38,6 @@ int	count_words(char *str, char *charset)
 	return (count);
 }
 
-// 分割された文字列をコピーする関数
 char	*make_word(char *str, char *charset)
 {
 	int		len;
@@ -54,12 +48,9 @@ char	*make_word(char *str, char *charset)
 	while (str[len] && !is_delimiter(str[len], charset))
 		len++;
 	word = (char *)malloc(len + 1);
-	i = 0;
-	while (i < len)
-	{
+	i = -1;
+	while (++i < len)
 		word[i] = str[i];
-		i++;
-	}
 	word[i] = '\0';
 	return (word);
 }
@@ -81,8 +72,7 @@ char	**ft_split(char *str, char *charset)
 			str++;
 		if (*str && !is_delimiter(*str, charset))
 		{
-			result[i] = make_word(str, charset);
-			i++;
+			result[i++] = make_word(str, charset);
 			while (*str && !is_delimiter(*str, charset))
 				str++;
 		}

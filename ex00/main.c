@@ -1,6 +1,18 @@
-#include <stdio.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: eokoshi <eokoshi@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/27 01:00:14 by eokoshi           #+#    #+#             */
+/*   Updated: 2023/08/27 01:03:18 by eokoshi          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include <stdlib.h>
 #include <unistd.h>
+#define IVI "Invalid index.\n"
+#define MAF "Memory allocation failed.\n"
 
 typedef struct dictionary
 {
@@ -10,44 +22,40 @@ typedef struct dictionary
 
 }				t_dictionary;
 
+int				ft_strlen(char *str);
 char			*ft_strjoin(int size, char **strs, char *sep);
 char			*read_dictionary(char *path);
 t_dictionary	parse_dictionary(char *str);
 
 int	*insert(int *list, int size, int i, int num)
 {
-	int	*newList;
+	int	*new_list;
+	int	j;
+	int	k;
 
-	int j, k;
 	if (i < 0 || i > size)
 	{
-		printf("Invalid index.\n");
+		write(1, IVI, ft_strlen(IVI));
 		return (NULL);
 	}
-	newList = malloc((size + 2) * sizeof(int));
-	if (newList == NULL)
+	new_list = malloc((size + 2) * sizeof(int));
+	if (new_list == NULL)
 	{
-		printf("Memory allocation failed.\n");
+		write(1, MAF, ft_strlen(MAF));
 		return (NULL);
 	}
 	j = 0;
-	k = 0;
-	while (k < size + 1)
+	k = -1;
+	while (++k < size + 1)
 	{
 		if (k == i)
-		{
-			newList[k] = num;
-		}
+			new_list[k] = num;
 		else
-		{
-			newList[k] = list[j];
-			j++;
-		}
-		k++;
+			new_list[k] = list[j++];
 	}
-	newList[size + 1] = -1;
+	new_list[size + 1] = -1;
 	free(list);
-	return (newList);
+	return (new_list);
 }
 
 int	find_max_key(t_dictionary dict, int num)
@@ -56,15 +64,10 @@ int	find_max_key(t_dictionary dict, int num)
 	int	max_key;
 
 	max_key = -1;
-	i = 0;
-	while (i < dict.size)
-	{
+	i = -1;
+	while (++i < dict.size)
 		if (dict.keys[i] <= num && dict.keys[i] > max_key)
-		{
 			max_key = dict.keys[i];
-		}
-		i++;
-	}
 	return (max_key);
 }
 
@@ -72,15 +75,10 @@ int	is_in_dict(t_dictionary dict, int num)
 {
 	int	i;
 
-	i = 0;
-	while (i < dict.size)
-	{
+	i = -1;
+	while (++i < dict.size)
 		if (dict.keys[i] == num)
-		{
 			return (1);
-		}
-		i++;
-	}
 	return (0);
 }
 
@@ -89,6 +87,7 @@ int	*decomposit_num(t_dictionary dict, int num)
 	int	*list;
 	int	list_size;
 	int	i;
+	int	j;
 	int	quotient;
 	int	remainder;
 	int	max_key;
@@ -101,13 +100,15 @@ int	*decomposit_num(t_dictionary dict, int num)
 	while (1)
 	{
 		all_in_dict = 1;
-		for (int j = 0; j < list_size; j += 2)
+		j = 0;
+		while (j < list_size)
 		{
 			if (!is_in_dict(dict, list[j]))
 			{
 				all_in_dict = 0;
 				break ;
 			}
+			j += 2;
 		}
 		if (all_in_dict)
 			break ;
@@ -123,9 +124,7 @@ int	*decomposit_num(t_dictionary dict, int num)
 			list_size += 1;
 		}
 		else
-		{
-			i += 1;
-		}
+			i++;
 	}
 	return (list);
 }
@@ -134,15 +133,10 @@ char	*find_value_by_key(t_dictionary dict, int key)
 {
 	int	i;
 
-	i = 0;
-	while (i < dict.size)
-	{
+	i = -1;
+	while (++i < dict.size)
 		if (dict.keys[i] == key)
-		{
 			return (dict.values[i]);
-		}
-		i++;
-	}
 	return (NULL);
 }
 
@@ -156,49 +150,34 @@ char	*convert_to_str(t_dictionary dict, int *num_list)
 	result = NULL;
 	i = 0;
 	count = 0;
-	// Count the size of num_list (up to -1)
 	while (num_list[count] != -1)
-	{
 		count++;
-	}
-	// Allocate memory for temporary string array
 	temp_strs = malloc((count + 1) * sizeof(char *));
 	if (temp_strs == NULL)
-	{
 		return (NULL);
-	}
-	// Convert keys to corresponding values and store them in temp_strs
 	while (num_list[i] != -1)
 	{
 		temp_strs[i] = find_value_by_key(dict, num_list[i]);
 		i++;
 	}
-	temp_strs[i] = NULL; // Null-terminate the array
-	// Join the temporary strings into one string
+	temp_strs[i] = NULL;
 	result = ft_strjoin(count, temp_strs, " ");
-	// Assuming a space is the separator between numbers
 	free(temp_strs);
-	// Free the allocated memory for temp_strs
 	return (result);
 }
 
-int	main(int argc, char **argv)
+int	main(void)
 {
 	char			*dict_str;
 	t_dictionary	dict;
-	int				num;
 	int				*result;
 	char			*str;
 
-	if (argc != 2 && argv != '\0')
-	{
-	}
 	dict_str = read_dictionary("numbers.dict");
 	dict = parse_dictionary(dict_str);
-	num = 123456;
 	result = decomposit_num(dict, 123456);
 	str = convert_to_str(dict, result);
-	printf("%s", str);
+	write(1, str, ft_strlen(str));
 	free(result);
 	return (0);
 }
