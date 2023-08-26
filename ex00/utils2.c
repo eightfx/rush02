@@ -6,7 +6,7 @@
 /*   By: eokoshi <eokoshi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 11:24:06 by eokoshi           #+#    #+#             */
-/*   Updated: 2023/08/26 11:24:55 by eokoshi          ###   ########.fr       */
+/*   Updated: 2023/08/26 12:50:59 by eokoshi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdio.h>
@@ -23,6 +23,7 @@ typedef struct dictionary
 {
 	int			*keys;
 	char		**values;
+	int			size;
 
 }				t_dictionary;
 
@@ -105,12 +106,13 @@ t_dictionary	parse_dictionary(char *str)
 	char			*line;
 	char			**key_value_pair;
 
-	line_count = 0;
-	i = 0;
 	str = eliminate_blank_line(str);
 	line_count = count_line(str);
 	dictionary.keys = malloc(sizeof(int) * line_count);
 	dictionary.values = malloc(sizeof(char *) * line_count);
+	// Initialize size field
+	dictionary.size = line_count;
+	i = 0;
 	line = strtok(str, "\n");
 	while (line != NULL)
 	{
@@ -118,6 +120,7 @@ t_dictionary	parse_dictionary(char *str)
 		dictionary.keys[i] = ft_atoi(trim(key_value_pair[0]));
 		dictionary.values[i] = trim(key_value_pair[1]);
 		free(key_value_pair);
+			// Assuming ft_split allocates new memory that needs to be freed
 		line = strtok(NULL, "\n");
 		i++;
 	}
