@@ -1,14 +1,30 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils2.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: eokoshi <eokoshi@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/26 11:24:06 by eokoshi           #+#    #+#             */
+/*   Updated: 2023/08/26 11:24:55 by eokoshi          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-int			ft_strlen(char *str);
+char			**ft_split(char *str, char *charset);
+char			*read_dictionary(char *path);
+int				ft_strlen(char *str);
+int				ft_atoi(char *str);
+char			*read_dictionary(char *path);
 
-typedef struct
+typedef struct dictionary
 {
-	int		*keys;
-	char	**values;
-}			Dictionary;
+	int			*keys;
+	char		**values;
+
+}				t_dictionary;
 
 char	*trim(char *str)
 {
@@ -40,7 +56,7 @@ char	*eliminate_blank_line(char *str)
 	is_prev_newline = 0;
 	if (!result)
 	{
-		return (NULL); // Memory allocation failed
+		return (NULL);
 	}
 	while (i < len)
 	{
@@ -81,32 +97,29 @@ int	count_line(char *str)
 	return (count);
 }
 
-/* Dictionary	parse_dictionary(char *str) */
-/* { */
-/* 	char		**values; */
-/* 	int			count; */
-/* 	char		*line; */
-/* 	char		*key_str; */
-/* 	char		*value_str; */
-/* 	Dictionary	dictionary; */
-/* 	int			line_count; */
-/* 	int			*keys; */
+t_dictionary	parse_dictionary(char *str)
+{
+	t_dictionary	dictionary;
+	int				line_count;
+	int				i;
+	char			*line;
+	char			**key_value_pair;
 
-/* 	line_count = count_line(str); */
-/* 	keys = malloc(sizeof(int) * line_count); */
-/* 	values = malloc(sizeof(char *) * line_count); */
-/* 	count = 0; */
-/* 	line = strtok(str, "\n"); */
-/* 	while (line != NULL) */
-/* 	{ */
-/* 		key_str = strtok(line, ":"); */
-/* 		value_str = strtok(NULL, ":"); */
-/* 		keys[count] = ft_atoi(trim(key_str)); */
-/* 		values[count] = trim(value_str); */
-/* 		line = strtok(NULL, "\n"); */
-/* 		count++; */
-/* 	} */
-/* 	dictionary.keys = keys; */
-/* 	dictionary.values = values; */
-/* 	return (dictionary); */
-/* } */
+	line_count = 0;
+	i = 0;
+	str = eliminate_blank_line(str);
+	line_count = count_line(str);
+	dictionary.keys = malloc(sizeof(int) * line_count);
+	dictionary.values = malloc(sizeof(char *) * line_count);
+	line = strtok(str, "\n");
+	while (line != NULL)
+	{
+		key_value_pair = ft_split(line, ":");
+		dictionary.keys[i] = ft_atoi(trim(key_value_pair[0]));
+		dictionary.values[i] = trim(key_value_pair[1]);
+		free(key_value_pair);
+		line = strtok(NULL, "\n");
+		i++;
+	}
+	return (dictionary);
+}
