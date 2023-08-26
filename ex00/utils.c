@@ -6,9 +6,10 @@
 /*   By: eokoshi <eokoshi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 11:25:03 by eokoshi           #+#    #+#             */
-/*   Updated: 2023/08/26 11:25:04 by eokoshi          ###   ########.fr       */
+/*   Updated: 2023/08/26 11:29:36 by eokoshi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include <unistd.h>
 
 int	ft_strlen(char *str)
