@@ -6,13 +6,18 @@
 /*   By: eokoshi <eokoshi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 13:12:56 by eokoshi           #+#    #+#             */
-/*   Updated: 2023/08/27 13:18:54 by eokoshi          ###   ########.fr       */
+/*   Updated: 2023/08/27 13:39:16 by eokoshi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <fcntl.h>
 #include <stdlib.h>
 #include <unistd.h>
 
+// Determines the size of a file given its file descriptor.
+// args:
+//   - fd : The file descriptor of the file whose size is to be determined.
+// returns:
+//   - ssize_t : The size of the file in bytes.
 ssize_t	get_file_size(int fd)
 {
 	ssize_t	total_size;
@@ -32,6 +37,13 @@ ssize_t	get_file_size(int fd)
 	return (total_size);
 }
 
+// Reads the content of a file into a dynamically allocated string.
+// args:
+//   - fd : The file descriptor of the file to be read.
+//   - size : The size of the file in bytes.
+// returns:
+//    - char* : A pointer to the dynamically allocated string containing
+//      the file content. NULL if reading fails or memory allocation fails.
 char	*read_file_content(int fd, off_t size)
 {
 	char	*content;
@@ -50,6 +62,13 @@ char	*read_file_content(int fd, off_t size)
 	return (content);
 }
 
+// Reads the content of a dictionary file located at a given path.
+// args:
+//   - path : The path to the dictionary file.
+// returns:
+//  - char* : A pointer to the dynamically allocated string containing
+//    the file content. NULL if file can't be opened,
+//    read or memory allocation fails.
 char	*read_dictionary(char *path)
 {
 	int		fd;

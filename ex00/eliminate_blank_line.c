@@ -6,19 +6,19 @@
 /*   By: eokoshi <eokoshi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 13:21:25 by eokoshi           #+#    #+#             */
-/*   Updated: 2023/08/27 13:29:11 by eokoshi          ###   ########.fr       */
+/*   Updated: 2023/08/27 13:31:05 by eokoshi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdlib.h>
 
-int			ft_strlen(char *str);
+int		ft_strlen(char *str);
 
-static int	is_newline(char c)
+int	is_newline(char c)
 {
 	return (c == '\n');
 }
 
-static void	add_to_result(char *result, int *result_idx, char current_char,
+void	add_to_result(char *result, int *result_idx, char current_char,
 		int *is_prev_newline)
 {
 	if (is_newline(current_char))

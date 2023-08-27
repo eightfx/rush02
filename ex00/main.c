@@ -6,13 +6,16 @@
 /*   By: eokoshi <eokoshi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 13:11:43 by eokoshi           #+#    #+#             */
-/*   Updated: 2023/08/27 13:11:45 by eokoshi          ###   ########.fr       */
+/*   Updated: 2023/08/27 14:13:36 by eokoshi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdlib.h>
 #include <unistd.h>
 #define IVI "Invalid index.\n"
 #define MAF "Memory allocation failed.\n"
+
+int				is_valid_arg(int argc, char **argv);
+int				ft_atoi(char *str);
 
 typedef struct dictionary
 {
@@ -100,13 +103,23 @@ int	*decomposit_num(t_dictionary dict, int num)
 	while (1)
 	{
 		all_in_dict = 1;
-		j = -1;
-		while (++j < list_size)
+		j = 0;
+		while (j < list_size)
+		{
 			if (!is_in_dict(dict, list[j]))
 			{
 				all_in_dict = 0;
 				break ;
 			}
+			if ((list[j] != 0) && (list[j] == 100 || list[j] % 1000 == 0)
+				&& (j == 0 || list[j - 1] % 1000 == 0))
+			{
+				list = insert(list, list_size, j, 1);
+				list_size++;
+				j += 1;
+			}
+			j += 1;
+		}
 		if (all_in_dict)
 		{
 			list[list_size] = -1;
@@ -120,12 +133,19 @@ int	*decomposit_num(t_dictionary dict, int num)
 			list[i] = max_key;
 			if (100 <= max_key)
 			{
-				list = insert(list, list_size++, i, quotient);
-				if (remainder)
-					list = insert(list, list_size++, i + 2, remainder);
+				list = insert(list, list_size, i, quotient);
+				list_size += 1;
+				if (remainder != 0)
+				{
+					list = insert(list, list_size, i + 2, remainder);
+					list_size += 1;
+				}
 			}
 			else
-				list = insert(list, list_size++, i + 1, remainder);
+			{
+				list = insert(list, list_size, i + 1, remainder);
+				list_size += 1;
+			}
 		}
 		else
 			i++;
@@ -170,23 +190,50 @@ char	*convert_to_str(t_dictionary dict, int *num_list)
 	return (result);
 }
 
-int	main(void)
+int	is_valid_dict(char *str)
+{
+	if (str)
+		return (1);
+	else
+		return (1);
+}
+int	is_valid_arg(int argc, char **str)
+{
+	if (argc > 0 || str)
+		return (1);
+	else
+		return (1);
+}
+
+int	main(int argc, char **argv)
 {
 	char			*dict_str;
 	t_dictionary	dict;
 	int				num;
 	int				*result;
 	char			*str;
+	char			*path;
 
-	// if (argc != 2 && argv != '\0')
-	//{
-	//}
-	dict_str = read_dictionary("numbers.dict");
+	if (!is_valid_arg(argc, argv))
+	{
+		write(1, "Error\n", 6);
+	}
+	if (argc == 2)
+		path = "numbers.dict";
+	else
+		path = argv[1];
+	dict_str = read_dictionary(path);
+	if (!is_valid_dict(dict_str))
+	{
+		write(1, "Dict Error\n", 11);
+		return (0);
+	}
 	dict = parse_dictionary(dict_str);
-	num = 123456;
-	result = decomposit_num(dict, 123456);
+	num = ft_atoi(argv[argc - 1]);
+	result = decomposit_num(dict, num);
 	str = convert_to_str(dict, result);
 	write(1, str, ft_strlen(str));
+	write(1, "\n", 1);
 	free(result);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: eokoshi <eokoshi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 11:24:06 by eokoshi           #+#    #+#             */
-/*   Updated: 2023/08/27 13:28:49 by eokoshi          ###   ########.fr       */
+/*   Updated: 2023/08/27 14:05:36 by eokoshi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdlib.h>
@@ -27,6 +27,11 @@ typedef struct dictionary
 
 }				t_dictionary;
 
+// Trims leading and trailing white spaces from a string.
+// args:
+//   - str : The string to be trimmed.
+// returns:
+//   - char* : A pointer to the trimmed string.
 char	*trim(char *str)
 {
 	int	start;
@@ -42,39 +47,11 @@ char	*trim(char *str)
 	return (str + start);
 }
 
-/* char	*eliminate_blank_line(char *str) */
-/* { */
-/* 	int		i; */
-/* 	int		len; */
-/* 	char	*result; */
-/* 	int		is_prev_newline; */
-/* 	int		j; */
-
-/* 	i = -1; */
-/* 	j = 0; */
-/* 	len = ft_strlen(str); */
-/* 	result = (char *)malloc(len + 1); */
-/* 	is_prev_newline = 0; */
-/* 	if (!result) */
-/* 		return (NULL); */
-/* 	while (++i < len) */
-/* 	{ */
-/* 		if (str[i] == '\n') */
-/* 		{ */
-/* 			if (!is_prev_newline) */
-/* 				result[j++] = str[i]; */
-/* 			is_prev_newline = 1; */
-/* 		} */
-/* 		else */
-/* 		{ */
-/* 			result[j++] = str[i]; */
-/* 			is_prev_newline = 0; */
-/* 		} */
-/* 	} */
-/* 	result[j] = '\0'; */
-/* 	return (result); */
-/* } */
-
+// Counts the number of lines in a string by counting newline characters.
+// args:
+//   - str : The string in which lines are to be counted.
+// returns:
+//   - int : The number of lines in the string.
 int	count_line(char *str)
 {
 	int	count;
@@ -86,6 +63,13 @@ int	count_line(char *str)
 	return (count);
 }
 
+// Parses a dictionary from a given string.
+// The string should contain key-value pairs separated by a colon,
+//  and each pair should be on a new line.
+// args:
+//   - str : The string containing the dictionary data.
+// returns:
+//   - t_dictionary : A struct containing the parsed keys and values.
 t_dictionary	parse_dictionary(char *str)
 {
 	t_dictionary	dictionary;

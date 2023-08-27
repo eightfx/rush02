@@ -6,7 +6,7 @@
 /*   By: eokoshi <eokoshi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 11:25:03 by eokoshi           #+#    #+#             */
-/*   Updated: 2023/08/26 11:29:36 by eokoshi          ###   ########.fr       */
+/*   Updated: 2023/08/27 14:09:16 by eokoshi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,4 @@ int	ft_strlen(char *str)
 	return (i);
 }
 
-int		is_valid_dict(char *str);
-
-void	print_dict_error(void)
-{
-	write(1, "Dict Error\n", 11);
-}
+int	is_valid_dict(char *str);
