@@ -6,12 +6,13 @@
 /*   By: eokoshi <eokoshi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 14:15:09 by eokoshi           #+#    #+#             */
-/*   Updated: 2023/08/27 16:01:19 by eokoshi          ###   ########.fr       */
+/*   Updated: 2023/08/27 17:08:38 by eokoshi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include <stdio.h>
 #include <unistd.h>
 
-int		arg_atoi(char *str);
+long	arg_atoi(char *str);
 char	*read_dictionary(char *path);
 
 int	is_valid_dict(char *str)
@@ -22,9 +23,9 @@ int	is_valid_dict(char *str)
 		return (1);
 }
 
-int	is_valid_arg(int argc, char **argv)
+long	is_valid_arg(int argc, char **argv)
 {
-	int	result;
+	long	result;
 
 	(void)argc;
 	if (argc == 2)

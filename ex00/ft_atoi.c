@@ -6,9 +6,11 @@
 /*   By: eokoshi <eokoshi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 11:25:16 by eokoshi           #+#    #+#             */
-/*   Updated: 2023/08/27 16:53:09 by eokoshi          ###   ########.fr       */
+/*   Updated: 2023/08/27 17:11:52 by eokoshi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include <stdio.h>
+#include <unistd.h>
 
 char	*remove_spaces(char *str)
 {
@@ -50,6 +52,7 @@ long	ft_atoi(char *str)
 	long	sign;
 	long	result;
 
+	result = 0;
 	str = remove_spaces(str);
 	str = calculate_sign(str, &sign);
 	str = remove_non_digits(str);
@@ -65,9 +68,10 @@ long	ft_atoi(char *str)
 long	arg_atoi(char *str)
 {
 	long	result;
+	long	long_max;
 
-	if (*str++ == '-')
-		return (-1);
+	result = 0;
+	long_max = 4294967295;
 	while (*str)
 	{
 		if (*str < '0' || '9' < *str)
@@ -75,7 +79,7 @@ long	arg_atoi(char *str)
 		result = result * 10 + *str - '0';
 		str++;
 	}
-	if (0 <= result && result <= 4294967295)
+	if (0 <= result && result <= long_max)
 		return (result);
 	else
 		return (-1);
