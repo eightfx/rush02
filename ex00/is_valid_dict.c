@@ -6,7 +6,7 @@
 /*   By: eokoshi <eokoshi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 20:16:40 by eokoshi           #+#    #+#             */
-/*   Updated: 2023/08/27 20:20:38 by eokoshi          ###   ########.fr       */
+/*   Updated: 2023/08/27 20:44:07 by eokoshi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdio.h>
@@ -31,27 +31,21 @@ int	is_valid_dict(char *str)
 {
 	while (*str)
 	{
-		// [a number]
 		if (!is_digit(*str))
 			return (0);
 		while (is_digit(*str))
 			str++;
-		// [0 to n spaces]
 		while (is_space(*str))
 			str++;
-		// :
 		if (*str != ':')
 			return (0);
 		str++;
-		// [0 to n spaces]
 		while (is_space(*str))
 			str++;
-		// [any printable characters]
 		if (!is_printable(*str))
 			return (0);
 		while (is_printable(*str))
 			str++;
-		// \n
 		if (*str != '\n')
 			return (0);
 		str++;
