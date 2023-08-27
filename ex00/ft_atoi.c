@@ -6,7 +6,7 @@
 /*   By: eokoshi <eokoshi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 11:25:16 by eokoshi           #+#    #+#             */
-/*   Updated: 2023/08/27 00:42:38 by eokoshi          ###   ########.fr       */
+/*   Updated: 2023/08/27 16:00:52 by eokoshi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 char	*remove_spaces(char *str)
@@ -56,4 +56,23 @@ int	ft_atoi(char *str)
 	while (*str)
 		result = result * 10 + (*str++ - '0');
 	return (sign * result);
+}
+
+int	arg_atoi(char *str)
+{
+	long	result;
+
+	if (*str++ == '-')
+		return (-1);
+	while (*str)
+	{
+		if (*str < '0' || '9' < *str)
+			return (-1);
+		result = result * 10 + *str - '0';
+		str++;
+	}
+	if (0 <= result && result <= 4294967295)
+		return (result);
+	else
+		return (-1);
 }

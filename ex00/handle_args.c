@@ -6,11 +6,12 @@
 /*   By: eokoshi <eokoshi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 14:15:09 by eokoshi           #+#    #+#             */
-/*   Updated: 2023/08/27 14:35:36 by eokoshi          ###   ########.fr       */
+/*   Updated: 2023/08/27 16:01:19 by eokoshi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <unistd.h>
 
+int		arg_atoi(char *str);
 char	*read_dictionary(char *path);
 
 int	is_valid_dict(char *str)
@@ -21,12 +22,26 @@ int	is_valid_dict(char *str)
 		return (1);
 }
 
-int	is_valid_arg(int argc, char **str)
+int	is_valid_arg(int argc, char **argv)
 {
-	if (argc > 0 || str)
-		return (1);
+	int	result;
+
+	(void)argc;
+	if (argc == 2)
+	{
+		result = arg_atoi(argv[1]);
+		if (result == -1)
+			return (0);
+	}
+	else if (argc == 3)
+	{
+		result = arg_atoi(argv[2]);
+		if (result == -1)
+			return (0);
+	}
 	else
-		return (1);
+		return (0);
+	return (result);
 }
 
 // Handles the command-line arguments and reads the dictionary file accordingly.

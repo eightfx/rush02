@@ -6,7 +6,7 @@
 /*   By: eokoshi <eokoshi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 14:50:06 by eokoshi           #+#    #+#             */
-/*   Updated: 2023/08/27 15:29:12 by eokoshi          ###   ########.fr       */
+/*   Updated: 2023/08/27 16:02:22 by eokoshi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdlib.h>
@@ -24,7 +24,8 @@ int			*insert(int *list, int size, int i, int num);
 
 int			is_in_dict(t_dictionary dict, int num);
 
-// Finds the largest key in the dictionary that is less than or equal to a given number.
+// Finds the largest key in the dictionary that is
+//  less than or equal to a given number.
 // args:
 //   - dict : The dictionary containing the keys.
 //   - num : The given number.
@@ -66,7 +67,8 @@ int	check_all_in_dict(t_dictionary dict, int *list, int list_size)
 	return (1);
 }
 
-// Decomposes a number into smaller numbers based on the maximum keys in the dictionary,
+// Decomposes a number into smaller numbers based
+// on the maximum keys in the dictionary,
 // and inserts those smaller numbers into the list.
 // args:
 //   - dict : The dictionary containing the keys.
@@ -126,7 +128,8 @@ void	process_list(t_dictionary dict, int **list, int *list_size)
 	}
 }
 
-// Decomposes a number into a list of smaller numbers that exist in the dictionary.
+// Decomposes a number into a list of smaller
+// numbers that exist in the dictionary.
 // args:
 //   - dict : The dictionary containing the keys.
 //   - num : The number to decompose.
