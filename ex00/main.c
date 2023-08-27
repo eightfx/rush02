@@ -6,7 +6,7 @@
 /*   By: eokoshi <eokoshi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 13:11:43 by eokoshi           #+#    #+#             */
-/*   Updated: 2023/08/27 14:13:36 by eokoshi          ###   ########.fr       */
+/*   Updated: 2023/08/27 14:35:09 by eokoshi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdlib.h>
@@ -14,7 +14,9 @@
 #define IVI "Invalid index.\n"
 #define MAF "Memory allocation failed.\n"
 
+char			*handle_args(int argc, char **argv);
 int				is_valid_arg(int argc, char **argv);
+int				is_valid_dict(char *str);
 int				ft_atoi(char *str);
 
 typedef struct dictionary
@@ -32,7 +34,7 @@ t_dictionary	parse_dictionary(char *str);
 
 int	*insert(int *list, int size, int i, int num)
 {
-	int	*newList;
+	int	*new_list;
 	int	j;
 	int	k;
 
@@ -41,8 +43,8 @@ int	*insert(int *list, int size, int i, int num)
 		write(1, IVI, ft_strlen(IVI));
 		return (NULL);
 	}
-	newList = malloc((size + 2) * sizeof(int));
-	if (newList == NULL)
+	new_list = malloc((size + 2) * sizeof(int));
+	if (new_list == NULL)
 	{
 		write(1, MAF, ft_strlen(MAF));
 		return (NULL);
@@ -52,13 +54,13 @@ int	*insert(int *list, int size, int i, int num)
 	while (++k < size + 1)
 	{
 		if (k == i)
-			newList[k] = num;
+			new_list[k] = num;
 		else
-			newList[k] = list[j++];
+			new_list[k] = list[j++];
 	}
-	newList[size + 1] = -1;
+	new_list[size + 1] = -1;
 	free(list);
-	return (newList);
+	return (new_list);
 }
 
 int	find_max_key(t_dictionary dict, int num)
@@ -190,21 +192,6 @@ char	*convert_to_str(t_dictionary dict, int *num_list)
 	return (result);
 }
 
-int	is_valid_dict(char *str)
-{
-	if (str)
-		return (1);
-	else
-		return (1);
-}
-int	is_valid_arg(int argc, char **str)
-{
-	if (argc > 0 || str)
-		return (1);
-	else
-		return (1);
-}
-
 int	main(int argc, char **argv)
 {
 	char			*dict_str;
@@ -212,22 +199,10 @@ int	main(int argc, char **argv)
 	int				num;
 	int				*result;
 	char			*str;
-	char			*path;
 
-	if (!is_valid_arg(argc, argv))
-	{
-		write(1, "Error\n", 6);
-	}
-	if (argc == 2)
-		path = "numbers.dict";
-	else
-		path = argv[1];
-	dict_str = read_dictionary(path);
-	if (!is_valid_dict(dict_str))
-	{
-		write(1, "Dict Error\n", 11);
+	dict_str = handle_args(argc, argv);
+	if (!dict_str)
 		return (0);
-	}
 	dict = parse_dictionary(dict_str);
 	num = ft_atoi(argv[argc - 1]);
 	result = decomposit_num(dict, num);

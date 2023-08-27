@@ -6,12 +6,20 @@
 /*   By: eokoshi <eokoshi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 00:42:03 by eokoshi           #+#    #+#             */
-/*   Updated: 2023/08/27 00:42:09 by eokoshi          ###   ########.fr       */
+/*   Updated: 2023/08/27 14:18:36 by eokoshi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdlib.h>
 
-int		ft_strlen(char *str);
+int	ft_strlen(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != '\0')
+		i++;
+	return (i);
+}
 
 int	calculate_total_length(char **strs, char *sep, int size)
 {
