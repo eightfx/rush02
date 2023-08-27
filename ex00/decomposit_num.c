@@ -6,7 +6,7 @@
 /*   By: eokoshi <eokoshi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 14:50:06 by eokoshi           #+#    #+#             */
-/*   Updated: 2023/08/27 20:49:49 by eokoshi          ###   ########.fr       */
+/*   Updated: 2023/08/27 21:13:45 by eokoshi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdio.h>
@@ -50,24 +50,6 @@ int	check_all_in_dict(t_dictionary dict, long *list, int list_size)
 	return (1);
 }
 
-void	print_long_array(long *list, int size)
-{
-	int	i;
-
-	i = 0;
-	printf("Array contents: [");
-	while (i < size)
-	{
-		printf("%ld", list[i]);
-		if (i < size - 1)
-		{
-			printf(", ");
-		}
-		i++;
-	}
-	printf("]\n");
-}
-
 // Decomposes a number into smaller numbers based
 // on the maximum keys in the dictionary,
 // and inserts those smaller numbers into the list.
@@ -83,7 +65,6 @@ void	decompose_and_insert(t_dictionary dict, long **list, int *list_size,
 	long	quotient;
 	long	remainder;
 
-	printf("dec_i:%ld\n", (*list)[i]);
 	max_key = find_max_key(dict, (*list)[i]);
 	quotient = (*list)[i] / max_key;
 	remainder = (*list)[i] % max_key;
@@ -118,7 +99,6 @@ int	process_list(t_dictionary dict, long **list, int *list_size)
 	i = 0;
 	while (i < *list_size)
 	{
-		print_long_array(*list, *list_size);
 		if (!is_in_dict(dict, (*list)[i]))
 			decompose_and_insert(dict, list, list_size, i);
 		i++;
