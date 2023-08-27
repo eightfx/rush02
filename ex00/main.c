@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: eokoshi <eokoshi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/27 01:00:14 by eokoshi           #+#    #+#             */
-/*   Updated: 2023/08/27 01:03:18 by eokoshi          ###   ########.fr       */
+/*   Created: 2023/08/27 13:11:43 by eokoshi           #+#    #+#             */
+/*   Updated: 2023/08/27 13:11:45 by eokoshi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdlib.h>
@@ -29,7 +29,7 @@ t_dictionary	parse_dictionary(char *str);
 
 int	*insert(int *list, int size, int i, int num)
 {
-	int	*new_list;
+	int	*newList;
 	int	j;
 	int	k;
 
@@ -38,8 +38,8 @@ int	*insert(int *list, int size, int i, int num)
 		write(1, IVI, ft_strlen(IVI));
 		return (NULL);
 	}
-	new_list = malloc((size + 2) * sizeof(int));
-	if (new_list == NULL)
+	newList = malloc((size + 2) * sizeof(int));
+	if (newList == NULL)
 	{
 		write(1, MAF, ft_strlen(MAF));
 		return (NULL);
@@ -49,13 +49,13 @@ int	*insert(int *list, int size, int i, int num)
 	while (++k < size + 1)
 	{
 		if (k == i)
-			new_list[k] = num;
+			newList[k] = num;
 		else
-			new_list[k] = list[j++];
+			newList[k] = list[j++];
 	}
-	new_list[size + 1] = -1;
+	newList[size + 1] = -1;
 	free(list);
-	return (new_list);
+	return (newList);
 }
 
 int	find_max_key(t_dictionary dict, int num)
@@ -100,28 +100,32 @@ int	*decomposit_num(t_dictionary dict, int num)
 	while (1)
 	{
 		all_in_dict = 1;
-		j = 0;
-		while (j < list_size)
-		{
+		j = -1;
+		while (++j < list_size)
 			if (!is_in_dict(dict, list[j]))
 			{
 				all_in_dict = 0;
 				break ;
 			}
-			j += 2;
-		}
 		if (all_in_dict)
+		{
+			list[list_size] = -1;
 			break ;
+		}
 		if (!is_in_dict(dict, list[i]))
 		{
 			max_key = find_max_key(dict, list[i]);
 			quotient = list[i] / max_key;
 			remainder = list[i] % max_key;
 			list[i] = max_key;
-			list = insert(list, list_size, i, quotient);
-			list_size += 1;
-			list = insert(list, list_size, i + 2, remainder);
-			list_size += 1;
+			if (100 <= max_key)
+			{
+				list = insert(list, list_size++, i, quotient);
+				if (remainder)
+					list = insert(list, list_size++, i + 2, remainder);
+			}
+			else
+				list = insert(list, list_size++, i + 1, remainder);
 		}
 		else
 			i++;
@@ -170,11 +174,16 @@ int	main(void)
 {
 	char			*dict_str;
 	t_dictionary	dict;
+	int				num;
 	int				*result;
 	char			*str;
 
+	// if (argc != 2 && argv != '\0')
+	//{
+	//}
 	dict_str = read_dictionary("numbers.dict");
 	dict = parse_dictionary(dict_str);
+	num = 123456;
 	result = decomposit_num(dict, 123456);
 	str = convert_to_str(dict, result);
 	write(1, str, ft_strlen(str));

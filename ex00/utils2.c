@@ -6,7 +6,7 @@
 /*   By: eokoshi <eokoshi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 11:24:06 by eokoshi           #+#    #+#             */
-/*   Updated: 2023/08/27 01:00:06 by eokoshi          ###   ########.fr       */
+/*   Updated: 2023/08/27 13:28:49 by eokoshi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdlib.h>
@@ -17,6 +17,7 @@ char			*read_dictionary(char *path);
 int				ft_strlen(char *str);
 int				ft_atoi(char *str);
 char			*read_dictionary(char *path);
+char			*eliminate_blank_line(char *original_str);
 
 typedef struct dictionary
 {
@@ -41,38 +42,38 @@ char	*trim(char *str)
 	return (str + start);
 }
 
-char	*eliminate_blank_line(char *str)
-{
-	int		i;
-	int		len;
-	char	*result;
-	int		is_prev_newline;
-	int		j;
+/* char	*eliminate_blank_line(char *str) */
+/* { */
+/* 	int		i; */
+/* 	int		len; */
+/* 	char	*result; */
+/* 	int		is_prev_newline; */
+/* 	int		j; */
 
-	i = -1;
-	j = 0;
-	len = ft_strlen(str);
-	result = (char *)malloc(len + 1);
-	is_prev_newline = 0;
-	if (!result)
-		return (NULL);
-	while (++i < len)
-	{
-		if (str[i] == '\n')
-		{
-			if (!is_prev_newline)
-				result[j++] = str[i];
-			is_prev_newline = 1;
-		}
-		else
-		{
-			result[j++] = str[i];
-			is_prev_newline = 0;
-		}
-	}
-	result[j] = '\0';
-	return (result);
-}
+/* 	i = -1; */
+/* 	j = 0; */
+/* 	len = ft_strlen(str); */
+/* 	result = (char *)malloc(len + 1); */
+/* 	is_prev_newline = 0; */
+/* 	if (!result) */
+/* 		return (NULL); */
+/* 	while (++i < len) */
+/* 	{ */
+/* 		if (str[i] == '\n') */
+/* 		{ */
+/* 			if (!is_prev_newline) */
+/* 				result[j++] = str[i]; */
+/* 			is_prev_newline = 1; */
+/* 		} */
+/* 		else */
+/* 		{ */
+/* 			result[j++] = str[i]; */
+/* 			is_prev_newline = 0; */
+/* 		} */
+/* 	} */
+/* 	result[j] = '\0'; */
+/* 	return (result); */
+/* } */
 
 int	count_line(char *str)
 {
