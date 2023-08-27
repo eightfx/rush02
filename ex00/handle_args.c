@@ -6,7 +6,7 @@
 /*   By: eokoshi <eokoshi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 14:15:09 by eokoshi           #+#    #+#             */
-/*   Updated: 2023/08/27 20:43:52 by eokoshi          ###   ########.fr       */
+/*   Updated: 2023/08/27 21:19:28 by eokoshi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdio.h>
@@ -60,6 +60,11 @@ char	*handle_args(int argc, char **argv)
 		dict_str = read_dictionary("numbers.dict");
 	else
 		dict_str = read_dictionary(argv[1]);
+	if (dict_str == '\0')
+	{
+		write(1, "Dict Error\n", 11);
+		return (NULL);
+	}
 	dict_str = eliminate_blank_line(dict_str);
 	if (!is_valid_dict(dict_str))
 	{
