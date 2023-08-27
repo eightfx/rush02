@@ -6,7 +6,7 @@
 /*   By: eokoshi <eokoshi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 14:50:06 by eokoshi           #+#    #+#             */
-/*   Updated: 2023/08/27 18:31:43 by eokoshi          ###   ########.fr       */
+/*   Updated: 2023/08/27 20:11:38 by eokoshi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdio.h>
@@ -25,25 +25,7 @@ long		*insert(long *list, int size, int i, long num);
 
 int			is_in_dict(t_dictionary dict, long num);
 
-// Finds the largest key in the dictionary that is
-//  less than or equal to a given number.
-// args:
-//   - dict : The dictionary containing the keys.
-//   - num : The given number.
-// returns:
-//   - int : The largest key that is less than or equal to the given number.
-int	find_max_key(t_dictionary dict, long num)
-{
-	int		i;
-	long	max_key;
-
-	max_key = -1;
-	i = -1;
-	while (++i < dict.size)
-		if (dict.keys[i] <= num && dict.keys[i] > max_key)
-			max_key = dict.keys[i];
-	return (max_key);
-}
+int			find_max_key(t_dictionary dict, long num);
 
 // Checks whether all numbers in the list exist in the dictionary.
 // args:
@@ -103,23 +85,6 @@ void	decompose_and_insert(t_dictionary dict, long **list, int *list_size,
 		(*list_size)++;
 	}
 }
-void	print_long_array(long *list, int size)
-{
-	int	i;
-
-	i = 0;
-	printf("Array contents: [");
-	while (i < size)
-	{
-		printf("%ld", list[i]);
-		if (i < size - 1)
-		{
-			printf(", ");
-		}
-		i++;
-	}
-	printf("]\n");
-}
 
 // Processes the list to ensure all numbers in it exist in the dictionary,
 // decomposing and inserting numbers as necessary.
@@ -127,18 +92,18 @@ void	print_long_array(long *list, int size)
 //   - dict : The dictionary containing the keys.
 //   - list : A pointer to the list of integers.
 //   - list_size : A pointer to the size of the list.
-void	process_list(t_dictionary dict, long **list, int *list_size)
+int	process_list(t_dictionary dict, long **list, int *list_size)
 {
 	int	i;
 
 	i = 0;
 	while (i < *list_size)
 	{
-		print_long_array(*list, *list_size);
 		if (!is_in_dict(dict, (*list)[i]))
 			decompose_and_insert(dict, list, list_size, i);
 		i++;
 	}
+	return (1);
 }
 
 long	*insert_one(long *list, int list_size)
@@ -185,7 +150,11 @@ long	*decomposit_num(t_dictionary dict, long num)
 			list[list_size] = -1;
 			break ;
 		}
-		process_list(dict, &list, &list_size);
+		if (!process_list(dict, &list, &list_size))
+		{
+			free(list);
+			return (NULL);
+		}
 	}
 	list = insert_one(list, list_size);
 	return (list);
