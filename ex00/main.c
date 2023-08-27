@@ -6,7 +6,7 @@
 /*   By: eokoshi <eokoshi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 13:11:43 by eokoshi           #+#    #+#             */
-/*   Updated: 2023/08/27 15:34:36 by eokoshi          ###   ########.fr       */
+/*   Updated: 2023/08/27 16:51:41 by eokoshi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdio.h>
@@ -17,34 +17,35 @@
 
 typedef struct dictionary
 {
-	int			*keys;
+	long		*keys;
 	char		**values;
 	int			size;
 
 }				t_dictionary;
 
-int				*decomposit_num(t_dictionary dict, int num);
+long			*decomposit_num(t_dictionary dict, long num);
 char			*handle_args(int argc, char **argv);
 int				is_valid_arg(int argc, char **argv);
 int				is_valid_dict(char *str);
-int				ft_atoi(char *str);
+long			ft_atoi(char *str);
+
 int				ft_strlen(char *str);
 char			*ft_strjoin(int size, char **strs, char *sep);
 char			*read_dictionary(char *path);
 t_dictionary	parse_dictionary(char *str);
 
-int	*insert(int *list, int size, int i, int num)
+long	*insert(long *list, int size, int i, long num)
 {
-	int	*new_list;
-	int	j;
-	int	k;
+	long	*new_list;
+	int		j;
+	int		k;
 
 	if (i < 0 || i > size)
 	{
 		write(1, IVI, ft_strlen(IVI));
 		return (NULL);
 	}
-	new_list = malloc((size + 2) * sizeof(int));
+	new_list = malloc((size + 2) * sizeof(long));
 	if (new_list == NULL)
 	{
 		write(1, MAF, ft_strlen(MAF));
@@ -64,7 +65,7 @@ int	*insert(int *list, int size, int i, int num)
 	return (new_list);
 }
 
-int	is_in_dict(t_dictionary dict, int num)
+int	is_in_dict(t_dictionary dict, long num)
 {
 	int	i;
 
@@ -75,7 +76,7 @@ int	is_in_dict(t_dictionary dict, int num)
 	return (0);
 }
 
-char	*find_value_by_key(t_dictionary dict, int key)
+char	*find_value_by_key(t_dictionary dict, long key)
 {
 	int	i;
 
@@ -86,7 +87,7 @@ char	*find_value_by_key(t_dictionary dict, int key)
 	return (NULL);
 }
 
-char	*convert_to_str(t_dictionary dict, int *num_list)
+char	*convert_to_str(t_dictionary dict, long *num_list)
 {
 	char	*result;
 	char	**temp_strs;
@@ -104,6 +105,8 @@ char	*convert_to_str(t_dictionary dict, int *num_list)
 	while (num_list[i] != -1)
 	{
 		temp_strs[i] = find_value_by_key(dict, num_list[i]);
+		if (!temp_strs[i])
+			return (NULL);
 		i++;
 	}
 	temp_strs[i] = NULL;
@@ -116,8 +119,8 @@ int	main(int argc, char **argv)
 {
 	char			*dict_str;
 	t_dictionary	dict;
-	int				num;
-	int				*result;
+	long			num;
+	long			*result;
 	char			*str;
 
 	dict_str = handle_args(argc, argv);
@@ -125,7 +128,6 @@ int	main(int argc, char **argv)
 		return (0);
 	dict = parse_dictionary(dict_str);
 	num = ft_atoi(argv[argc - 1]);
-	printf("num:%d\n", num);
 	result = decomposit_num(dict, num);
 	str = convert_to_str(dict, result);
 	write(1, str, ft_strlen(str));

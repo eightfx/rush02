@@ -6,7 +6,7 @@
 /*   By: eokoshi <eokoshi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 11:24:06 by eokoshi           #+#    #+#             */
-/*   Updated: 2023/08/27 14:05:36 by eokoshi          ###   ########.fr       */
+/*   Updated: 2023/08/27 16:48:46 by eokoshi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdlib.h>
@@ -15,13 +15,13 @@
 char			**ft_split(char *str, char *charset);
 char			*read_dictionary(char *path);
 int				ft_strlen(char *str);
-int				ft_atoi(char *str);
+unsigned int	ft_atoi(char *str);
 char			*read_dictionary(char *path);
 char			*eliminate_blank_line(char *original_str);
 
 typedef struct dictionary
 {
-	int			*keys;
+	long		*keys;
 	char		**values;
 	int			size;
 
@@ -80,7 +80,7 @@ t_dictionary	parse_dictionary(char *str)
 
 	str = eliminate_blank_line(str);
 	line_count = count_line(str);
-	dictionary.keys = malloc(sizeof(int) * line_count);
+	dictionary.keys = malloc(sizeof(long) * line_count);
 	dictionary.values = malloc(sizeof(char *) * line_count);
 	dictionary.size = line_count;
 	i = 0;

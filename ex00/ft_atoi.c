@@ -6,9 +6,10 @@
 /*   By: eokoshi <eokoshi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 11:25:16 by eokoshi           #+#    #+#             */
-/*   Updated: 2023/08/27 16:00:52 by eokoshi          ###   ########.fr       */
+/*   Updated: 2023/08/27 16:53:09 by eokoshi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 char	*remove_spaces(char *str)
 {
 	while (*str == ' ' || *str == '\t' || *str == '\n' || *str == '\v'
@@ -17,7 +18,7 @@ char	*remove_spaces(char *str)
 	return (str);
 }
 
-char	*calculate_sign(char *str, int *sign)
+char	*calculate_sign(char *str, long *sign)
 {
 	int	minus_count;
 
@@ -44,21 +45,24 @@ char	*remove_non_digits(char *str)
 	return (s);
 }
 
-int	ft_atoi(char *str)
+long	ft_atoi(char *str)
 {
-	int	sign;
-	int	result;
+	long	sign;
+	long	result;
 
 	str = remove_spaces(str);
 	str = calculate_sign(str, &sign);
 	str = remove_non_digits(str);
 	result = 0;
 	while (*str)
+	{
 		result = result * 10 + (*str++ - '0');
-	return (sign * result);
+	}
+	result *= sign;
+	return (result);
 }
 
-int	arg_atoi(char *str)
+long	arg_atoi(char *str)
 {
 	long	result;
 

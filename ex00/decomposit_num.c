@@ -6,7 +6,7 @@
 /*   By: eokoshi <eokoshi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 14:50:06 by eokoshi           #+#    #+#             */
-/*   Updated: 2023/08/27 16:02:22 by eokoshi          ###   ########.fr       */
+/*   Updated: 2023/08/27 16:52:51 by eokoshi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdlib.h>
@@ -14,15 +14,15 @@
 
 typedef struct dictionary
 {
-	int		*keys;
+	long	*keys;
 	char	**values;
 	int		size;
 
 }			t_dictionary;
 
-int			*insert(int *list, int size, int i, int num);
+long		*insert(long *list, int size, int i, long num);
 
-int			is_in_dict(t_dictionary dict, int num);
+int			is_in_dict(t_dictionary dict, long num);
 
 // Finds the largest key in the dictionary that is
 //  less than or equal to a given number.
@@ -31,10 +31,10 @@ int			is_in_dict(t_dictionary dict, int num);
 //   - num : The given number.
 // returns:
 //   - int : The largest key that is less than or equal to the given number.
-int	find_max_key(t_dictionary dict, int num)
+int	find_max_key(t_dictionary dict, long num)
 {
-	int	i;
-	int	max_key;
+	int		i;
+	long	max_key;
 
 	max_key = -1;
 	i = -1;
@@ -51,7 +51,7 @@ int	find_max_key(t_dictionary dict, int num)
 //   - list_size : The size of the list.
 // returns:
 //   - int : 1 if all numbers are in the dictionary, 0 otherwise.
-int	check_all_in_dict(t_dictionary dict, int *list, int list_size)
+int	check_all_in_dict(t_dictionary dict, long *list, int list_size)
 {
 	int	j;
 
@@ -75,12 +75,12 @@ int	check_all_in_dict(t_dictionary dict, int *list, int list_size)
 //   - list : A pointer to the list of integers.
 //   - list_size : A pointer to the size of the list.
 //   - i : The index of the number in the list to decompose.
-void	decompose_and_insert(t_dictionary dict, int **list, int *list_size,
+void	decompose_and_insert(t_dictionary dict, long **list, int *list_size,
 		int i)
 {
-	int	max_key;
-	int	quotient;
-	int	remainder;
+	long	max_key;
+	long	quotient;
+	long	remainder;
 
 	max_key = find_max_key(dict, (*list)[i]);
 	quotient = (*list)[i] / max_key;
@@ -109,7 +109,7 @@ void	decompose_and_insert(t_dictionary dict, int **list, int *list_size,
 //   - dict : The dictionary containing the keys.
 //   - list : A pointer to the list of integers.
 //   - list_size : A pointer to the size of the list.
-void	process_list(t_dictionary dict, int **list, int *list_size)
+void	process_list(t_dictionary dict, long **list, int *list_size)
 {
 	int	i;
 
@@ -135,13 +135,13 @@ void	process_list(t_dictionary dict, int **list, int *list_size)
 //   - num : The number to decompose.
 // returns:
 //   - int* : A pointer to the list of decomposed numbers.
-int	*decomposit_num(t_dictionary dict, int num)
+long	*decomposit_num(t_dictionary dict, long num)
 {
-	int	*list;
-	int	list_size;
+	long	*list;
+	int		list_size;
 
 	list_size = 1;
-	list = malloc(sizeof(int));
+	list = malloc(sizeof(long));
 	list[0] = num;
 	while (1)
 	{
