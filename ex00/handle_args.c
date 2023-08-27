@@ -6,7 +6,7 @@
 /*   By: eokoshi <eokoshi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 14:15:09 by eokoshi           #+#    #+#             */
-/*   Updated: 2023/08/27 17:08:38 by eokoshi          ###   ########.fr       */
+/*   Updated: 2023/08/27 18:14:40 by eokoshi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdio.h>
@@ -32,16 +32,16 @@ long	is_valid_arg(int argc, char **argv)
 	{
 		result = arg_atoi(argv[1]);
 		if (result == -1)
-			return (0);
+			return (-1);
 	}
 	else if (argc == 3)
 	{
 		result = arg_atoi(argv[2]);
 		if (result == -1)
-			return (0);
+			return (-1);
 	}
 	else
-		return (0);
+		return (-1);
 	return (result);
 }
 
@@ -56,7 +56,7 @@ char	*handle_args(int argc, char **argv)
 {
 	char	*dict_str;
 
-	if (!is_valid_arg(argc, argv))
+	if (is_valid_arg(argc, argv) == -1)
 	{
 		write(1, "Error\n", 6);
 		return (NULL);

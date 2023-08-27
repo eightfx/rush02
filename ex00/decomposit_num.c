@@ -6,7 +6,7 @@
 /*   By: eokoshi <eokoshi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 14:50:06 by eokoshi           #+#    #+#             */
-/*   Updated: 2023/08/27 18:10:55 by eokoshi          ###   ########.fr       */
+/*   Updated: 2023/08/27 18:31:43 by eokoshi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdio.h>
@@ -103,6 +103,23 @@ void	decompose_and_insert(t_dictionary dict, long **list, int *list_size,
 		(*list_size)++;
 	}
 }
+void	print_long_array(long *list, int size)
+{
+	int	i;
+
+	i = 0;
+	printf("Array contents: [");
+	while (i < size)
+	{
+		printf("%ld", list[i]);
+		if (i < size - 1)
+		{
+			printf(", ");
+		}
+		i++;
+	}
+	printf("]\n");
+}
 
 // Processes the list to ensure all numbers in it exist in the dictionary,
 // decomposing and inserting numbers as necessary.
@@ -117,16 +134,33 @@ void	process_list(t_dictionary dict, long **list, int *list_size)
 	i = 0;
 	while (i < *list_size)
 	{
-		if (((*list)[i] != 0) && ((*list)[i] == 100 || (*list)[i] % 1000 == 0)
-			&& (i == 0 || (*list)[i - 1] % 1000 == 0) && *list_size != 1)
-		{
-			*list = insert(*list, *list_size, i, 1);
-			(*list_size)++;
-		}
+		print_long_array(*list, *list_size);
 		if (!is_in_dict(dict, (*list)[i]))
 			decompose_and_insert(dict, list, list_size, i);
 		i++;
 	}
+}
+
+long	*insert_one(long *list, int list_size)
+{
+	int		i;
+	long	*result;
+
+	result = list;
+	i = 0;
+	while (i < list_size)
+	{
+		if ((result[i] != 0) && (result[i] == 100 || result[i] % 1000 == 0)
+			&& (i == 0 || result[i - 1] % 1000 == 0) && list_size != 1)
+		{
+			result = insert(result, list_size, i, 1);
+			list_size++;
+		}
+		i++;
+	}
+	if (list_size == 1 && result[0] % 10 == 0 && result[0] >= 100)
+		result = insert(result, list_size, 0, 1);
+	return (result);
 }
 
 // Decomposes a number into a list of smaller
@@ -153,7 +187,6 @@ long	*decomposit_num(t_dictionary dict, long num)
 		}
 		process_list(dict, &list, &list_size);
 	}
-	if (list_size == 1 && list[0] % 10 == 0 && list[0] >= 100)
-		list = insert(list, list_size, 0, 1);
+	list = insert_one(list, list_size);
 	return (list);
 }
