@@ -6,9 +6,10 @@
 /*   By: eokoshi <eokoshi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 14:50:06 by eokoshi           #+#    #+#             */
-/*   Updated: 2023/08/27 16:52:51 by eokoshi          ###   ########.fr       */
+/*   Updated: 2023/08/27 18:10:55 by eokoshi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -117,7 +118,7 @@ void	process_list(t_dictionary dict, long **list, int *list_size)
 	while (i < *list_size)
 	{
 		if (((*list)[i] != 0) && ((*list)[i] == 100 || (*list)[i] % 1000 == 0)
-			&& (i == 0 || (*list)[i - 1] % 1000 == 0))
+			&& (i == 0 || (*list)[i - 1] % 1000 == 0) && *list_size != 1)
 		{
 			*list = insert(*list, *list_size, i, 1);
 			(*list_size)++;
@@ -152,5 +153,7 @@ long	*decomposit_num(t_dictionary dict, long num)
 		}
 		process_list(dict, &list, &list_size);
 	}
+	if (list_size == 1 && list[0] % 10 == 0 && list[0] >= 100)
+		list = insert(list, list_size, 0, 1);
 	return (list);
 }

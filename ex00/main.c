@@ -6,7 +6,7 @@
 /*   By: eokoshi <eokoshi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 13:11:43 by eokoshi           #+#    #+#             */
-/*   Updated: 2023/08/27 17:12:57 by eokoshi          ###   ########.fr       */
+/*   Updated: 2023/08/27 17:55:55 by eokoshi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdio.h>
@@ -34,36 +34,7 @@ char			*ft_strjoin(int size, char **strs, char *sep);
 char			*read_dictionary(char *path);
 t_dictionary	parse_dictionary(char *str);
 
-long	*insert(long *list, int size, int i, long num)
-{
-	long	*new_list;
-	int		j;
-	int		k;
-
-	if (i < 0 || i > size)
-	{
-		write(1, IVI, ft_strlen(IVI));
-		return (NULL);
-	}
-	new_list = malloc((size + 2) * sizeof(long));
-	if (new_list == NULL)
-	{
-		write(1, MAF, ft_strlen(MAF));
-		return (NULL);
-	}
-	j = 0;
-	k = -1;
-	while (++k < size + 1)
-	{
-		if (k == i)
-			new_list[k] = num;
-		else
-			new_list[k] = list[j++];
-	}
-	new_list[size + 1] = -1;
-	free(list);
-	return (new_list);
-}
+long			*insert(long *list, int size, int i, long num);
 
 int	is_in_dict(t_dictionary dict, long num)
 {
