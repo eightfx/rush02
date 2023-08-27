@@ -6,7 +6,7 @@
 /*   By: eokoshi <eokoshi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 13:11:43 by eokoshi           #+#    #+#             */
-/*   Updated: 2023/08/27 17:55:55 by eokoshi          ###   ########.fr       */
+/*   Updated: 2023/08/27 20:10:32 by eokoshi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdio.h>
@@ -99,8 +99,12 @@ int	main(int argc, char **argv)
 		return (0);
 	dict = parse_dictionary(dict_str);
 	num = ft_atoi(argv[argc - 1]);
-	printf("num:%ld\n", num);
 	result = decomposit_num(dict, num);
+	if (result == '\0')
+	{
+		write(1, "Error\n", 6);
+		return (0);
+	}
 	str = convert_to_str(dict, result);
 	write(1, str, ft_strlen(str));
 	write(1, "\n", 1);

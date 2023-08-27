@@ -6,23 +6,17 @@
 /*   By: eokoshi <eokoshi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 14:15:09 by eokoshi           #+#    #+#             */
-/*   Updated: 2023/08/27 18:14:40 by eokoshi          ###   ########.fr       */
+/*   Updated: 2023/08/27 20:23:54 by eokoshi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdio.h>
 #include <unistd.h>
 
+char	*eliminate_blank_line(char *original_str);
 long	arg_atoi(char *str);
 char	*read_dictionary(char *path);
 
-int	is_valid_dict(char *str)
-{
-	if (str)
-		return (1);
-	else
-		return (1);
-}
-
+int		is_valid_dict(char *str);
 long	is_valid_arg(int argc, char **argv)
 {
 	long	result;
@@ -65,6 +59,7 @@ char	*handle_args(int argc, char **argv)
 		dict_str = read_dictionary("numbers.dict");
 	else
 		dict_str = read_dictionary(argv[1]);
+	dict_str = eliminate_blank_line(dict_str);
 	if (!is_valid_dict(dict_str))
 	{
 		write(1, "Dict Error\n", 11);

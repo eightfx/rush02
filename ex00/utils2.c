@@ -6,7 +6,7 @@
 /*   By: eokoshi <eokoshi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 11:24:06 by eokoshi           #+#    #+#             */
-/*   Updated: 2023/08/27 16:48:46 by eokoshi          ###   ########.fr       */
+/*   Updated: 2023/08/27 20:22:41 by eokoshi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdlib.h>
@@ -78,7 +78,6 @@ t_dictionary	parse_dictionary(char *str)
 	char			*line;
 	char			**key_value_pair;
 
-	str = eliminate_blank_line(str);
 	line_count = count_line(str);
 	dictionary.keys = malloc(sizeof(long) * line_count);
 	dictionary.values = malloc(sizeof(char *) * line_count);
@@ -95,4 +94,24 @@ t_dictionary	parse_dictionary(char *str)
 		i++;
 	}
 	return (dictionary);
+}
+
+// Finds the largest key in the dictionary that is
+//  less than or equal to a given number.
+// args:
+//   - dict : The dictionary containing the keys.
+//   - num : The given number.
+// returns:
+//   - int : The largest key that is less than or equal to the given number.
+int	find_max_key(t_dictionary dict, long num)
+{
+	int		i;
+	long	max_key;
+
+	max_key = -1;
+	i = -1;
+	while (++i < dict.size)
+		if (dict.keys[i] <= num && dict.keys[i] > max_key)
+			max_key = dict.keys[i];
+	return (max_key);
 }
