@@ -6,18 +6,13 @@
 /*   By: eokoshi <eokoshi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 13:11:43 by eokoshi           #+#    #+#             */
-/*   Updated: 2023/08/27 14:35:09 by eokoshi          ###   ########.fr       */
+/*   Updated: 2023/08/27 15:01:34 by eokoshi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdlib.h>
 #include <unistd.h>
 #define IVI "Invalid index.\n"
 #define MAF "Memory allocation failed.\n"
-
-char			*handle_args(int argc, char **argv);
-int				is_valid_arg(int argc, char **argv);
-int				is_valid_dict(char *str);
-int				ft_atoi(char *str);
 
 typedef struct dictionary
 {
@@ -27,6 +22,11 @@ typedef struct dictionary
 
 }				t_dictionary;
 
+int				*decomposit_num(t_dictionary dict, int num);
+char			*handle_args(int argc, char **argv);
+int				is_valid_arg(int argc, char **argv);
+int				is_valid_dict(char *str);
+int				ft_atoi(char *str);
 int				ft_strlen(char *str);
 char			*ft_strjoin(int size, char **strs, char *sep);
 char			*read_dictionary(char *path);
@@ -63,19 +63,6 @@ int	*insert(int *list, int size, int i, int num)
 	return (new_list);
 }
 
-int	find_max_key(t_dictionary dict, int num)
-{
-	int	i;
-	int	max_key;
-
-	max_key = -1;
-	i = -1;
-	while (++i < dict.size)
-		if (dict.keys[i] <= num && dict.keys[i] > max_key)
-			max_key = dict.keys[i];
-	return (max_key);
-}
-
 int	is_in_dict(t_dictionary dict, int num)
 {
 	int	i;
@@ -85,74 +72,6 @@ int	is_in_dict(t_dictionary dict, int num)
 		if (dict.keys[i] == num)
 			return (1);
 	return (0);
-}
-
-int	*decomposit_num(t_dictionary dict, int num)
-{
-	int	*list;
-	int	list_size;
-	int	i;
-	int	j;
-	int	quotient;
-	int	remainder;
-	int	max_key;
-	int	all_in_dict;
-
-	list = malloc(sizeof(int));
-	list[0] = num;
-	list_size = 1;
-	i = 0;
-	while (1)
-	{
-		all_in_dict = 1;
-		j = 0;
-		while (j < list_size)
-		{
-			if (!is_in_dict(dict, list[j]))
-			{
-				all_in_dict = 0;
-				break ;
-			}
-			if ((list[j] != 0) && (list[j] == 100 || list[j] % 1000 == 0)
-				&& (j == 0 || list[j - 1] % 1000 == 0))
-			{
-				list = insert(list, list_size, j, 1);
-				list_size++;
-				j += 1;
-			}
-			j += 1;
-		}
-		if (all_in_dict)
-		{
-			list[list_size] = -1;
-			break ;
-		}
-		if (!is_in_dict(dict, list[i]))
-		{
-			max_key = find_max_key(dict, list[i]);
-			quotient = list[i] / max_key;
-			remainder = list[i] % max_key;
-			list[i] = max_key;
-			if (100 <= max_key)
-			{
-				list = insert(list, list_size, i, quotient);
-				list_size += 1;
-				if (remainder != 0)
-				{
-					list = insert(list, list_size, i + 2, remainder);
-					list_size += 1;
-				}
-			}
-			else
-			{
-				list = insert(list, list_size, i + 1, remainder);
-				list_size += 1;
-			}
-		}
-		else
-			i++;
-	}
-	return (list);
 }
 
 char	*find_value_by_key(t_dictionary dict, int key)
